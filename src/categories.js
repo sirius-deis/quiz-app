@@ -44,7 +44,7 @@ const categoryList = [
 ];
 
 function createCategoryListAndInsert() {
-    const imgDimension = 70;
+    const imgDimension = 120;
     const listForAppending = categoryList
         .map((categoryItem) => {
             return `

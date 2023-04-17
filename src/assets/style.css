@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap");
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,4 +8,83 @@
 
 :root {
     font-size: 62.5%;
+    --bg-color: #fffbeb;
+    --card-color: #fcd34d;
+    --text-color: #451a03;
+    --shadow-color: rgba(69, 26, 3, 0.3);
+}
+
+body {
+    height: 100vh;
+    background-color: var(--bg-color);
+    font-family: "Open Sans", sans-serif;
+}
+
+.categories {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.categories__header {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.categories__list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.categories__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 19%;
+    background-color: var(--card-color);
+    box-shadow: 2px 2px 6px var(--shadow-color);
+    cursor: pointer;
+}
+
+.card {
+    width: 36.5rem;
+    height: 24.3rem;
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: 1s ease-in all;
+}
+
+.card:hover {
+    transform: rotateY(180deg);
+}
+
+.card__front,
+.cart__back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 5px;
+    backface-visibility: hidden;
+}
+
+.card__front {
+}
+
+.cart__back {
+    transform: rotateY(180deg);
+    font-size: 3rem;
+    line-height: 2;
+    background-color: var(--card-color);
+    text-transform: uppercase;
 }
