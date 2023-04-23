@@ -15,6 +15,7 @@ let currentQuestion = 0;
 let activeCart;
 let nextCart;
 let answers = [];
+let chosenAnswer = "";
 
 export const createQuestionField = (arr) => {
     questionsArr = arr;
@@ -58,6 +59,26 @@ const stopTimer = () => {
     clearInterval(intervalId);
 };
 
+const nextMove = () => {
+    currentQuestion++;
+    activeCart.classList.add("left-layout");
+    const temp = activeCart;
+    setTimeout(() => temp.remove(), 500);
+    setTimeout(() => nextCart.classList.remove("right-layout"), 10);
+    activeCart = nextCart;
+
+    stopTimer();
+    remainingTime = 20;
+    answers.push(chosenAnswer);
+    chosenAnswer = "";
+    lineOuter.style.width = `100%`;
+    setTimeout(start, 500);
+};
+
+const resetOptionElements = (parent) => {
+    Array.prototype.forEach.call(parent.children, (el) => el.classList.remove("chosen"));
+};
+
 prepareBtn.addEventListener("click", () => {
     prepareEl.classList.add("hidden");
     questionContainer.classList.remove("hidden");
@@ -68,17 +89,10 @@ forwardArrow.addEventListener("click", () => {
     if (currentQuestion >= questionsArr.length) {
         return;
     }
-    currentQuestion++;
-    activeCart.classList.add("left-layout");
-    const temp = activeCart;
-    setTimeout(() => temp.remove(), 500);
-    setTimeout(() => nextCart.classList.remove("right-layout"), 10);
-    activeCart = nextCart;
-
-    stopTimer();
-    remainingTime = 20;
-    lineOuter.style.width = `100%`;
-    setTimeout(start, 500);
+    if (!chosenAnswer) {
+        return;
+    }
+    nextMove();
 });
 
 questionContainer.addEventListener("click", (e) => {
@@ -86,5 +100,7 @@ questionContainer.addEventListener("click", (e) => {
     if (!el) {
         return;
     }
-    answers.push(el.textContent.split(".")[1].trim());
+    resetOptionElements(el.parentElement);
+    el.classList.add("chosen");
+    chosenAnswer = el.textContent.split(".")[1].trim();
 });

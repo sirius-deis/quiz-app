@@ -11,6 +11,7 @@
     --bg-color: #fde68a;
     --bg-color-dark: #92400e;
     --card-color: #fcd34d;
+    --card-color-darker: #f59e0b;
     --text-color: #451a03;
     --text-color-light: #fef3c7;
     --shadow-color: rgba(69, 26, 3, 0.3);
@@ -312,7 +313,6 @@ body {
     gap: 3rem;
     transition: transform ease-out 0.5s;
 }
-
 .question__task {
     min-height: 8rem;
     width: 70%;
@@ -338,6 +338,10 @@ body {
 
 .question__option:hover {
     background-color: var(--card-color);
+}
+
+.question__option.chosen {
+    background-color: var(--card-color-darker);
 }
 
 .question__forward {
