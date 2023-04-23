@@ -38,6 +38,14 @@ module.exports = {
                     from: path.resolve(__dirname, "src", "assets"),
                     to: "public",
                 },
+                {
+                    from: path.resolve(__dirname, "src", "favicon.ico"),
+                    to: ".",
+                },
+                {
+                    from: path.resolve(__dirname, "src", "manifest.json"),
+                    to: ".",
+                },
             ],
         }),
     ],
@@ -45,8 +53,14 @@ module.exports = {
         static: {
             directory: path.join(__dirname, "dist"),
         },
+        client: {
+            progress: true,
+            overlay: true,
+        },
         hot: true,
+        historyApiFallback: true,
         compress: true,
         port: 3002,
+        open: false,
     },
 };

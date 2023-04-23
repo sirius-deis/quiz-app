@@ -20,6 +20,10 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
+.hidden {
+    display: none;
+}
+
 .categories {
     height: 100%;
     display: flex;

@@ -7,19 +7,15 @@ const categoryList = [
     },
     {
         name: "sport",
-        title: "sport",
+        title: "sport and leisure",
     },
     {
         name: "movie",
-        title: "film & tv",
+        title: "film and tv",
     },
     {
         name: "art",
-        title: "arts & literature",
-    },
-    {
-        name: "art",
-        title: "arts & literature",
+        title: "arts and literature",
     },
     {
         name: "history",
@@ -27,7 +23,11 @@ const categoryList = [
     },
     {
         name: "society",
-        title: "society & culture",
+        title: "society and culture",
+    },
+    {
+        name: "science",
+        title: "science",
     },
     {
         name: "geography",
@@ -35,7 +35,7 @@ const categoryList = [
     },
     {
         name: "food",
-        title: "food & drink",
+        title: "food and drink",
     },
     {
         name: "general",
@@ -49,9 +49,9 @@ function createCategoryListAndInsert() {
         .map((categoryItem) => {
             return `
         <li class="categories__item">
-            <div class="card">
+            <div class="card" data-title="${categoryItem.title}">
                 <div class="card__front">
-                    <img src="public/icons/${categoryItem.name}.png" width="${imgDimension}" height="${imgDimension}" alt="${categoryItem.name}" />
+                    <img src="public/images/${categoryItem.name}.png" width="${imgDimension}" height="${imgDimension}" alt="${categoryItem.name}" />
                 </div>
                 <div class="cart__back">${categoryItem.title}</div>
             </div>
@@ -63,3 +63,7 @@ function createCategoryListAndInsert() {
 }
 
 createCategoryListAndInsert();
+
+categoryListEl.addEventListener("click", (e) => {
+    const el = e.target;
+});
