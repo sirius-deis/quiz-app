@@ -25,7 +25,7 @@
         <title>Quiz app</title>
     </head>
     <body>
-        <section class="start">
+        <section class="start visible">
             <picture class="start__picture">
                 <source media="(min-width: 800px)" srcset="/public/images/default.png" />
                 <img src="/public/images/default_50.png" alt="icon which represent different topics of quiz" />
@@ -40,8 +40,19 @@
                 </p>
             </div>
             <div class="submit-wrapper">
-                <button class="start__btn">Let's get started</button>
+                <button class="btn">Let's get started</button>
                 <div class="helper">press <strong>Enter &#8629;</strong></div>
+            </div>
+        </section>
+        <section class="info hidden">
+            <div class="info__wrapper">
+                <div class="info__title">What's your name, challenger? *</div>
+                <div class="info__text">Just your first one is fine. Or a nickname.</div>
+                <input class="info__input" type="text" placeholder="Type your name here" />
+                <div class="submit-wrapper">
+                    <button class="btn">OK &#10003;</button>
+                    <div class="helper">press <strong>Enter &#8629;</strong></div>
+                </div>
             </div>
         </section>
         <section class="categories hidden">
