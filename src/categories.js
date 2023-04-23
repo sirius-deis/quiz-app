@@ -62,20 +62,22 @@ function createCategoryListAndInsert() {
     categoryListEl.innerHTML = listForAppending;
 }
 
-createCategoryListAndInsert();
+export const createCategoryList = (setQuestions) => {
+    createCategoryListAndInsert();
 
-categoryListEl.addEventListener("click", (e) => {
-    const el = e.target.closest(".category__item");
-    if (!el) {
-        return;
-    }
-    const categoryName = el.dataset.title.replace(" ", "-");
-    fetchQuestions(categoryName);
-});
+    categoryListEl.addEventListener("click", (e) => {
+        const el = e.target.closest(".category__item");
+        if (!el) {
+            return;
+        }
+        const categoryName = el.dataset.title.replace(" ", "-");
+        fetchQuestions(categoryName);
+    });
 
-const fetchQuestions = async (categoryName) => {
-    const response = await fetch(` https://the-trivia-api.com/api/questions?categories=${categoryName}&limit=12`);
-    const data = await response.json();
+    const fetchQuestions = async (categoryName) => {
+        const response = await fetch(` https://the-trivia-api.com/api/questions?categories=${categoryName}&limit=12`);
+        const data = await response.json();
 
-    console.log(data);
+        setQuestions(data);
+    };
 };

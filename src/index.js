@@ -1,4 +1,5 @@
-import "./categories";
+import { createCategoryList } from "./categories";
+import { createQuestionField } from "./questions";
 
 const startSection = document.querySelector(".start"),
     starterBtnEl = startSection.querySelector(".btn");
@@ -6,19 +7,28 @@ const infoSection = document.querySelector(".info"),
     infoInputEl = infoSection.querySelector(".info__input"),
     infoBtnEl = infoSection.querySelector(".btn");
 const categorySection = document.querySelector(".category");
+const questionSection = document.querySelector(".question");
 
 const url = new URL(location);
 let currentPath = "";
 let currentSection;
+let questions;
 
 window.addEventListener("DOMContentLoaded", (e) => {
     const name = retrieveNameFromStorage();
 
     if (url.pathname !== "/" && !name) {
         currentSection = startSection;
-        replace();
-    } else if (url.pathname === "questions") {
-        replace();
+        moveToStartSection();
+    } else if (url.pathname === "questions" && !questions) {
+        if (!name) {
+            moveToStartSection();
+        } else {
+            move("category");
+            showSection(categorySection);
+            hideSection(currentSection);
+            currentSection = categorySection;
+        }
     } else {
         currentSection = document.querySelector(`.${url.pathname.slice(1) || "start"}`);
         showSection(currentSection);
@@ -41,7 +51,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
         });
 });
 
-const replace = (path = "") => {
+const moveToStartSection = (path = "") => {
     history.replaceState(null, "", `${url.origin}/${path}`);
 };
 
@@ -83,4 +93,17 @@ window.addEventListener("popstate", (e) => {
     hideSection(currentSection);
     currentPath = sectionPath;
     currentSection = sectionToReplace;
+});
+
+const setQuestions = (arr) => {
+    questions = arr;
+};
+
+createCategoryList((questionsArr) => {
+    setQuestions(questionsArr);
+    move("category");
+    showSection(questionSection);
+    hideSection(currentSection);
+    currentSection = questionSection;
+    createQuestionField(questionsArr);
 });
