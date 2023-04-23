@@ -1,4 +1,4 @@
-const categoryListEl = document.querySelector(".categories__list");
+const categoryListEl = document.querySelector(".category__list");
 
 const categoryList = [
     {
@@ -48,8 +48,8 @@ function createCategoryListAndInsert() {
     const listForAppending = categoryList
         .map((categoryItem) => {
             return `
-        <li class="categories__item">
-            <div class="card" data-title="${categoryItem.title}">
+        <li class="category__item" data-title="${categoryItem.title}">
+            <div class="card">
                 <div class="card__front">
                     <img src="public/images/${categoryItem.name}.png" width="${imgDimension}" height="${imgDimension}" alt="${categoryItem.name}" />
                 </div>
@@ -65,5 +65,17 @@ function createCategoryListAndInsert() {
 createCategoryListAndInsert();
 
 categoryListEl.addEventListener("click", (e) => {
-    const el = e.target;
+    const el = e.target.closest(".category__item");
+    if (!el) {
+        return;
+    }
+    const categoryName = el.dataset.title.replace(" ", "-");
+    fetchQuestions(categoryName);
 });
+
+const fetchQuestions = async (categoryName) => {
+    const response = await fetch(` https://the-trivia-api.com/api/questions?categories=${categoryName}&limit=12`);
+    const data = await response.json();
+
+    console.log(data);
+};

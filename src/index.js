@@ -1,11 +1,14 @@
 import "./categories";
 
-const startSection = document.querySelector(".start");
-const starterBtnEl = startSection.querySelector(".btn");
-const infoSection = document.querySelector(".info");
+const startSection = document.querySelector(".start"),
+    starterBtnEl = startSection.querySelector(".btn");
+const infoSection = document.querySelector(".info"),
+    infoInputEl = infoSection.querySelector(".info__input"),
+    infoBtnEl = infoSection.querySelector(".btn");
+const categorySection = document.querySelector(".category");
 
 const url = new URL(location);
-let current = "";
+let currentPath = "";
 let currentSection;
 
 window.addEventListener("DOMContentLoaded", (e) => {
@@ -14,13 +17,27 @@ window.addEventListener("DOMContentLoaded", (e) => {
     if (url.pathname !== "/" && !name) {
         currentSection = startSection;
         replace();
+    } else if (url.pathname === "questions") {
+        replace();
+    } else {
+        currentSection = document.querySelector(`.${url.pathname.slice(1) || "start"}`);
+        showSection(currentSection);
     }
     starterBtnEl &&
         starterBtnEl.addEventListener("click", () => {
-            currentSection = infoSection;
             move("info");
             showSection(infoSection);
-            hideSection(startSection);
+            hideSection(currentSection);
+            currentSection = infoSection;
+        });
+
+    infoBtnEl &&
+        infoBtnEl.addEventListener("click", () => {
+            putNameToStorage(infoInputEl.value);
+            move("category");
+            showSection(categorySection);
+            hideSection(currentSection);
+            currentSection = categorySection;
         });
 });
 
@@ -29,8 +46,8 @@ const replace = (path = "") => {
 };
 
 const move = (path) => {
-    current = `${url.origin}/${path}`;
-    history.pushState(null, "", current);
+    currentPath = path;
+    history.pushState(null, "", `${url.origin}/${currentPath}`);
 };
 
 const showSection = (section) => {
@@ -57,12 +74,13 @@ const putNameToStorage = (name) => {
 };
 
 window.addEventListener("popstate", (e) => {
-    const section = new URL(e.target.location).pathname.slice(1);
-    if (section === current) {
+    const sectionPath = new URL(e.target.location).pathname.slice(1);
+    if (sectionPath === currentPath) {
         return;
     }
-    const sectionToReplace = document.querySelector(`.${section || "start"}`);
+    const sectionToReplace = document.querySelector(`.${sectionPath || "start"}`);
     showSection(sectionToReplace);
     hideSection(currentSection);
+    currentPath = sectionPath;
     currentSection = sectionToReplace;
 });

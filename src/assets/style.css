@@ -75,8 +75,8 @@ body {
 
 /* Sections overall styles */
 .start,
-.categories,
-.info {
+.info,
+.category {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -150,16 +150,17 @@ body {
 }
 
 /* Categories section */
-.categories {
-    gap: 3rem;
+.category {
+    gap: 5rem;
 }
 
-.categories__header {
-    font-size: 2rem;
+.category__header {
+    text-align: center;
+    font-size: 2.5rem;
     font-weight: 700;
 }
 
-.categories__list {
+.category__list {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -168,7 +169,7 @@ body {
     gap: 1rem;
 }
 
-.categories__item {
+.category__item {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -201,9 +202,6 @@ body {
     position: absolute;
     border-radius: 5px;
     backface-visibility: hidden;
-}
-
-.card__front {
 }
 
 .cart__back {
