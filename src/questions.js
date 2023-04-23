@@ -14,6 +14,7 @@ let remainingTime = 20;
 let currentQuestion = 0;
 let activeCart;
 let nextCart;
+let answers = [];
 
 export const createQuestionField = (arr) => {
     questionsArr = arr;
@@ -78,4 +79,12 @@ forwardArrow.addEventListener("click", () => {
     remainingTime = 20;
     lineOuter.style.width = `100%`;
     setTimeout(start, 500);
+});
+
+questionContainer.addEventListener("click", (e) => {
+    const el = e.target.closest(".question__option");
+    if (!el) {
+        return;
+    }
+    answers.push(el.textContent.split(".")[1].trim());
 });
