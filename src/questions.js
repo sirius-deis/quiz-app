@@ -1,12 +1,12 @@
-const prepareEl = document.querySelector(".prepare"),
-    prepareBtn = prepareEl.querySelector(".btn");
+const prepareEl = document.querySelector('.prepare'),
+    prepareBtn = prepareEl.querySelector('.btn');
 
-const questionContainer = document.querySelector(".question__container"),
-    timeEl = questionContainer.querySelector(".question__time"),
-    progressEl = questionContainer.querySelector(".question__progress"),
-    lineOuter = questionContainer.querySelector(".question__outer"),
-    questionContent = questionContainer.querySelector(".question__content"),
-    forwardArrow = questionContainer.querySelector(".question__forward");
+const questionContainer = document.querySelector('.question__container'),
+    timeEl = questionContainer.querySelector('.question__time'),
+    progressEl = questionContainer.querySelector('.question__progress'),
+    lineOuter = questionContainer.querySelector('.question__outer'),
+    questionContent = questionContainer.querySelector('.question__content'),
+    forwardArrow = questionContainer.querySelector('.question__forward');
 
 let questionsArr;
 let intervalId;
@@ -15,20 +15,23 @@ let currentQuestion = 0;
 let activeCart;
 let nextCart;
 let answers = [];
-let chosenAnswer = "";
+let chosenAnswer = '';
 
-export const createQuestionField = (arr) => {
-    questionsArr = arr;
-};
-
-const createCart = (question) => {
-    const answers = [question.correctAnswer, ...question.incorrectAnswers];
-    const item = document.createElement("div");
-    item.className = "question__item";
+const createCart = question => {
+    const answersArr = [question.correctAnswer, ...question.incorrectAnswers];
+    const item = document.createElement('div');
+    item.className = 'question__item';
     item.innerHTML = `
         <div class="question__task">${question.question}</div>
         <div class="question__options">
-            ${answers.map((answer, i) => `<div class="question__option">${i + 1}. ${answer}</div>`).join("")}
+            ${answersArr
+                .map(
+                    (answer, i) =>
+                        `<div class="question__option">${
+                            i + 1
+                        }. ${answer}</div>`
+                )
+                .join('')}
         </div>
     `;
     return item;
@@ -40,17 +43,19 @@ const start = () => {
     }
     if (currentQuestion < questionsArr.length - 1) {
         nextCart = createCart(questionsArr[currentQuestion + 1]);
-        nextCart.classList.add("right-layout");
+        nextCart.classList.add('right-layout');
     }
     questionContent.append(activeCart, nextCart);
     progressEl.textContent = `${currentQuestion}/${questionsArr.length}`;
-    intervalId = setInterval(tick, 1000);
+    intervalId = setInterval(tick, 100);
 };
 
 const tick = () => {
-    timeEl.textContent = `Time Left: ${(remainingTime -= 1)}`;
+    timeEl.textContent = `Time Left: ${Math.abs((remainingTime -= 0.1)).toFixed(
+        0
+    )}`;
     lineOuter.style.width = `${(remainingTime / 20) * 100}%`;
-    if (remainingTime === 0) {
+    if (remainingTime <= 0) {
         stopTimer();
     }
 };
@@ -61,31 +66,36 @@ const stopTimer = () => {
 
 const nextMove = () => {
     currentQuestion++;
-    activeCart.classList.add("left-layout");
+    activeCart.classList.add('left-layout');
     const temp = activeCart;
     setTimeout(() => temp.remove(), 500);
-    setTimeout(() => nextCart.classList.remove("right-layout"), 10);
+    setTimeout(() => nextCart.classList.remove('right-layout'), 10);
     activeCart = nextCart;
 
     stopTimer();
     remainingTime = 20;
     answers.push(chosenAnswer);
-    chosenAnswer = "";
+    chosenAnswer = '';
     lineOuter.style.width = `100%`;
     setTimeout(start, 500);
 };
 
-const resetOptionElements = (parent) => {
-    Array.prototype.forEach.call(parent.children, (el) => el.classList.remove("chosen"));
+const resetOptionElements = parent => {
+    Array.prototype.forEach.call(parent.children, el =>
+        el.classList.remove('chosen')
+    );
 };
 
-prepareBtn.addEventListener("click", () => {
-    prepareEl.classList.add("hidden");
-    questionContainer.classList.remove("hidden");
-    start();
-});
+export const bindQuestions = arr => {
+    questionsArr = arr;
+    prepareBtn.addEventListener('click', () => {
+        prepareEl.classList.add('hidden');
+        questionContainer.classList.remove('hidden');
+        start();
+    });
+};
 
-forwardArrow.addEventListener("click", () => {
+forwardArrow.addEventListener('click', () => {
     if (currentQuestion >= questionsArr.length) {
         return;
     }
@@ -95,12 +105,12 @@ forwardArrow.addEventListener("click", () => {
     nextMove();
 });
 
-questionContainer.addEventListener("click", (e) => {
-    const el = e.target.closest(".question__option");
+questionContainer.addEventListener('click', e => {
+    const el = e.target.closest('.question__option');
     if (!el) {
         return;
     }
     resetOptionElements(el.parentElement);
-    el.classList.add("chosen");
-    chosenAnswer = el.textContent.split(".")[1].trim();
+    el.classList.add('chosen');
+    chosenAnswer = el.textContent.split('.')[1].trim();
 });

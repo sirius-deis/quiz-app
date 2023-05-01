@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap');
 
 * {
     box-sizing: border-box;
@@ -24,7 +24,7 @@ body {
     height: 100vh;
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .hidden {
@@ -65,7 +65,8 @@ body {
     border: 0;
     border-radius: 1rem;
     cursor: pointer;
-    transition: background-color ease-out 0.5s 0.1s, transform ease-out 0.5s 0.1s;
+    transition: background-color ease-out 0.5s 0.1s,
+        transform ease-out 0.5s 0.1s;
 }
 
 .btn:hover {
@@ -281,7 +282,7 @@ body {
 .question__outer {
     width: 100%;
     background-color: var(--bg-color-dark);
-    transition: width ease-out 1.5s;
+    transition: width ease-out 0.1s;
 }
 
 .question__outer::after {

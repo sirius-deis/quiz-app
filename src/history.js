@@ -23,17 +23,20 @@ export const bindHistory = (formCategoriesCb, isQuestionsEmpty) => {
     if (url.pathname !== '/' && !name) {
         currentSection = startSection;
         moveToStartSection();
-    } else if (url.pathname === '/questions' && !isQuestionsEmpty) {
-        if (!name) {
-            moveToStartSection();
+    } else if (url.pathname === '/questions') {
+        if (!isQuestionsEmpty) {
+            move('questions');
         } else {
-            move('category');
+            if (!name) {
+                moveToStartSection();
+            } else {
+                move('category');
+                formCategoriesCb();
+            }
         }
     } else if (url.pathname === '/category') {
         move('category');
         formCategoriesCb();
-    } else if (url.pathname === '/questions') {
-        move('questions');
     } else {
         currentSection = document.querySelector(
             `.${url.pathname.slice(1) || 'start'}`
