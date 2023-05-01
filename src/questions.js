@@ -57,6 +57,8 @@ const tick = () => {
     lineOuter.style.width = `${(remainingTime / 20) * 100}%`;
     if (remainingTime <= 0) {
         stopTimer();
+        answers.push(null);
+        nextMove();
     }
 };
 
