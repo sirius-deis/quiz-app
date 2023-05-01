@@ -12,21 +12,28 @@ const url = new URL(location);
 let currentPath = '';
 let currentSection;
 
-export const bindHistory = (createCategoryList, getCategoryList) => {
-    const name = retrieveNameFromStorage();
+const map = {
+    category: categorySection,
+    info: infoSection,
+    questions: questionSection,
+};
 
+export const bindHistory = (formCategoriesCb, isQuestionsEmpty) => {
+    const name = retrieveNameFromStorage();
     if (url.pathname !== '/' && !name) {
         currentSection = startSection;
         moveToStartSection();
-    } else if (url.pathname === 'questions' && !questions) {
+    } else if (url.pathname === '/questions' && !isQuestionsEmpty) {
         if (!name) {
             moveToStartSection();
         } else {
             move('category');
-            showSection(categorySection);
-            hideSection(currentSection);
-            currentSection = categorySection;
         }
+    } else if (url.pathname === '/category') {
+        move('category');
+        formCategoriesCb();
+    } else if (url.pathname === '/questions') {
+        move('questions');
     } else {
         currentSection = document.querySelector(
             `.${url.pathname.slice(1) || 'start'}`
@@ -36,28 +43,14 @@ export const bindHistory = (createCategoryList, getCategoryList) => {
     starterBtnEl &&
         starterBtnEl.addEventListener('click', () => {
             move('info');
-            showSection(infoSection);
-            hideSection(currentSection);
-            currentSection = infoSection;
         });
 
     infoBtnEl &&
         infoBtnEl.addEventListener('click', () => {
             putNameToStorage(infoInputEl.value);
             move('category');
-            showSection(categorySection);
-            hideSection(currentSection);
             currentSection = categorySection;
-            const categoryList = getCategoryList();
-
-            createCategoryList(categoryList, questionsArr => {
-                setQuestions(questionsArr);
-                move('category');
-                showSection(questionSection);
-                hideSection(currentSection);
-                currentSection = questionSection;
-                createQuestionField(questionsArr);
-            });
+            formCategoriesCb();
         });
 };
 
@@ -65,9 +58,12 @@ const moveToStartSection = (path = '') => {
     history.replaceState(null, '', `${url.origin}/${path}`);
 };
 
-const move = path => {
+export const move = path => {
     currentPath = path;
     history.pushState(null, '', `${url.origin}/${currentPath}`);
+    showSection(map[path]);
+    currentSection && hideSection(currentSection);
+    currentSection = map[path];
 };
 
 const showSection = section => {

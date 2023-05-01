@@ -19,20 +19,7 @@ function createCategoryListAndInsert(categoryList) {
     categoryListEl.innerHTML = listForAppending;
 }
 
-const fetchQuestions = async categoryName => {
-    const response = await fetch(
-        ` https://the-trivia-api.com/api/questions?categories=${categoryName}&limit=12`
-    );
-    if (!response.ok) {
-        //TODO:
-        throw new Error(response.statusText);
-    }
-    const data = await response.json();
-
-    return data;
-};
-
-export const createCategoryList = (categoryList, setQuestions) => {
+export const createCategoryList = (categoryList, returnChosenCb) => {
     createCategoryListAndInsert(categoryList);
 
     categoryListEl.addEventListener('click', async e => {
@@ -41,8 +28,7 @@ export const createCategoryList = (categoryList, setQuestions) => {
             return;
         }
         const categoryName = el.dataset.title.replace(' ', '-');
-        const data = await fetchQuestions(categoryName);
 
-        setQuestions(data);
+        returnChosenCb(categoryName);
     });
 };

@@ -57,4 +57,17 @@ export const setQuestions = arr => {
     questions = arr;
 };
 
-export const getQuestion = () => questions;
+export const getQuestions = () => questions;
+
+export const fetchQuestions = async categoryName => {
+    const response = await fetch(
+        ` https://the-trivia-api.com/api/questions?categories=${categoryName}&limit=12`
+    );
+    if (!response.ok) {
+        //TODO:
+        throw new Error(response.statusText);
+    }
+    const data = await response.json();
+
+    setQuestions(data);
+};
