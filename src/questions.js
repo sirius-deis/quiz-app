@@ -56,7 +56,6 @@ const tick = () => {
     )}`;
     lineOuter.style.width = `${(remainingTime / 20) * 100}%`;
     if (remainingTime <= 0) {
-        stopTimer();
         answers.push(null);
         nextMove();
     }
@@ -67,19 +66,32 @@ const stopTimer = () => {
 };
 
 const nextMove = () => {
+    if (intervalId) {
+        stopTimer();
+    }
+    if (currentQuestion === questionsArr.length - 1) {
+        return;
+    }
     currentQuestion++;
+    shiftCards();
+
+    remainingTime = 20;
+    chooseAnswer();
+    lineOuter.style.width = `100%`;
+    setTimeout(start, 500);
+};
+
+const chooseAnswer = () => {
+    answers.push(chosenAnswer);
+    chosenAnswer = '';
+};
+
+const shiftCards = () => {
     activeCart.classList.add('left-layout');
     const temp = activeCart;
     setTimeout(() => temp.remove(), 500);
     setTimeout(() => nextCart.classList.remove('right-layout'), 10);
     activeCart = nextCart;
-
-    stopTimer();
-    remainingTime = 20;
-    answers.push(chosenAnswer);
-    chosenAnswer = '';
-    lineOuter.style.width = `100%`;
-    setTimeout(start, 500);
 };
 
 const resetOptionElements = parent => {
