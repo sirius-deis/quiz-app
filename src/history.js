@@ -18,24 +18,34 @@ const map = {
     questions: questionSection,
 };
 
-export const bindHistory = (formCategoriesCb, isQuestionsEmpty) => {
+export const bindHistory = (
+    formCategoriesCb,
+    isQuestionsEmpty,
+    historyChangeCb
+) => {
     const name = retrieveNameFromStorage();
+
+    const changeHistory = path => {
+        historyChangeCb(path);
+        move(path, true);
+    };
+
     if (url.pathname !== '/' && !name) {
         currentSection = startSection;
         moveToStartSection();
     } else if (url.pathname === '/questions') {
         if (!isQuestionsEmpty) {
-            move('questions');
+            changeHistory('questions');
         } else {
             if (!name) {
                 moveToStartSection();
             } else {
-                move('category');
+                changeHistory('category');
                 formCategoriesCb();
             }
         }
     } else if (url.pathname === '/category') {
-        move('category');
+        changeHistory('category');
         formCategoriesCb();
     } else {
         currentSection = document.querySelector(
@@ -45,25 +55,34 @@ export const bindHistory = (formCategoriesCb, isQuestionsEmpty) => {
     }
     starterBtnEl &&
         starterBtnEl.addEventListener('click', () => {
-            move('info');
+            changeHistory('info');
         });
 
     infoBtnEl &&
         infoBtnEl.addEventListener('click', () => {
             putNameToStorage(infoInputEl.value);
-            move('category');
-            currentSection = categorySection;
+            changeHistory('category');
             formCategoriesCb();
         });
+
+    window.addEventListener('popstate', e => {
+        const sectionPath = new URL(e.target.location).pathname.slice(1);
+        if (sectionPath === currentPath) {
+            return;
+        }
+        const path = sectionPath || 'start';
+        historyChangeCb(path);
+        move(path);
+    });
 };
 
 const moveToStartSection = (path = '') => {
     history.replaceState(null, '', `${url.origin}/${path}`);
 };
 
-export const move = path => {
+export const move = (path, push = false) => {
     currentPath = path;
-    history.pushState(null, '', `${url.origin}/${currentPath}`);
+    push && history.pushState(null, '', `${url.origin}/${currentPath}`);
     showSection(map[path]);
     currentSection && hideSection(currentSection);
     currentSection = map[path];
@@ -82,17 +101,3 @@ const hideSection = section => {
         section.classList.add('hidden');
     }, 300);
 };
-
-window.addEventListener('popstate', e => {
-    const sectionPath = new URL(e.target.location).pathname.slice(1);
-    if (sectionPath === currentPath) {
-        return;
-    }
-    const sectionToReplace = document.querySelector(
-        `.${sectionPath || 'start'}`
-    );
-    showSection(sectionToReplace);
-    hideSection(currentSection);
-    currentPath = sectionPath;
-    currentSection = sectionToReplace;
-});

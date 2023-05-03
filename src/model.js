@@ -71,3 +71,13 @@ export const fetchQuestions = async categoryName => {
 
     setQuestions(data);
 };
+
+let answers = [];
+
+export const addAnswer = answer => {
+    answers.push(answer);
+};
+
+export const getAnswers = () => {
+    return answers;
+};

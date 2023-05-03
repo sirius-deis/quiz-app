@@ -4,22 +4,76 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="apple-touch-icon" sizes="57x57" href="/public/icons/apple-icon-57x57.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="/public/icons/apple-icon-60x60.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="/public/icons/apple-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/public/icons/apple-icon-76x76.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="/public/icons/apple-icon-114x114.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/public/icons/apple-icon-120x120.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/public/icons/apple-icon-144x144.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/public/icons/apple-icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/public/icons/apple-icon-180x180.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/public/icons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/public/icons/favicon-96x96.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/public/icons/favicon-16x16.png" />
+        <link
+            rel="apple-touch-icon"
+            sizes="57x57"
+            href="/public/icons/apple-icon-57x57.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="60x60"
+            href="/public/icons/apple-icon-60x60.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="72x72"
+            href="/public/icons/apple-icon-72x72.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="/public/icons/apple-icon-76x76.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="114x114"
+            href="/public/icons/apple-icon-114x114.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="120x120"
+            href="/public/icons/apple-icon-120x120.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="144x144"
+            href="/public/icons/apple-icon-144x144.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="152x152"
+            href="/public/icons/apple-icon-152x152.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/public/icons/apple-icon-180x180.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/public/icons/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="/public/icons/favicon-96x96.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/public/icons/favicon-16x16.png"
+        />
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <link rel="manifest" href="manifest.json" />
         <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-TileImage" content="/public/icons/ms-icon-144x144.png" />
+        <meta
+            name="msapplication-TileImage"
+            content="/public/icons/ms-icon-144x144.png"
+        />
         <meta name="theme-color" content="#ffffff" />
         <link rel="stylesheet" href="public/style.css" />
         <title>Quiz app</title>
@@ -27,16 +81,23 @@
     <body>
         <section class="start hidden">
             <picture class="start__picture">
-                <source media="(min-width: 800px)" srcset="/public/images/default.png" />
-                <img src="/public/images/default_50.png" alt="icon which represent different topics of quiz" />
+                <source
+                    media="(min-width: 800px)"
+                    srcset="/public/images/default.png"
+                />
+                <img
+                    src="/public/images/default_50.png"
+                    alt="icon which represent different topics of quiz"
+                />
             </picture>
             <div class="start__desc">
                 <h1 class="start__heading">
-                    If you get a high score, you probably spend <em>way</em> too much time on Wikipedia.
+                    If you get a high score, you probably spend <em>way</em> too
+                    much time on Wikipedia.
                 </h1>
                 <p class="start__text">
-                    There are 12 questions and a break for refreshments in the middle. (You'll have to provide your own
-                    snacks, sorry.)
+                    There are 12 questions and a break for refreshments in the
+                    middle. (You'll have to provide your own snacks, sorry.)
                 </p>
             </div>
             <div class="submit-wrapper">
@@ -47,11 +108,19 @@
         <section class="info hidden">
             <div class="info__wrapper">
                 <div class="info__title">What's your name, challenger? *</div>
-                <div class="info__text">Just your first one is fine. Or a nickname.</div>
-                <input class="info__input" type="text" placeholder="Type your name here" />
+                <div class="info__text">
+                    Just your first one is fine. Or a nickname.
+                </div>
+                <input
+                    class="info__input"
+                    type="text"
+                    placeholder="Type your name here"
+                />
                 <div class="submit-wrapper">
                     <button class="btn">OK &#10003;</button>
-                    <div class="helper">press <strong>Enter &#8629;</strong></div>
+                    <div class="helper">
+                        press <strong>Enter &#8629;</strong>
+                    </div>
                 </div>
             </div>
         </section>
@@ -63,12 +132,15 @@
         <section class="question">
             <div class="prepare">
                 <div class="prepare__title">Are yor ready?</div>
-                <div class="prepare__text">You will have 12 questions and 20 seconds do answer each question</div>
+                <div class="prepare__text">
+                    You will have 12 questions and 20 seconds do answer each
+                    question
+                </div>
                 <button class="btn">Start</button>
             </div>
             <div class="question__container hidden">
                 <div class="question__info">
-                    <div class="question__time">Time Left: 20sec</div>
+                    <div class="question__time">Time Left:</div>
                     <div class="question__progress">1/12</div>
                 </div>
                 <div class="question__remain">
