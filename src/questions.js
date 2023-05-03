@@ -9,6 +9,7 @@ const questionContainer = document.querySelector('.question__container'),
     forwardArrow = questionContainer.querySelector('.question__forward');
 
 export let intervalId;
+let questionsArr = [];
 let remainingTime = 20;
 let currentQuestion = 0;
 let activeCart;
@@ -56,13 +57,16 @@ const resetOptionElements = parent => {
     );
 };
 
-export const resetPrepare = () => {
+export const resetQuestions = () => {
     questionContent.innerHTML = '';
     prepareEl.classList.remove('hidden');
     questionContainer.classList.add('hidden');
+    currentQuestion = 0;
 };
 
-export const bindQuestions = (questionsArr, addAnswer, allQuestionsDoneCb) => {
+export const bindQuestions = (questions, addAnswer, allQuestionsDoneCb) => {
+    questionsArr = questions;
+
     const start = () => {
         if (currentQuestion === 0) {
             activeCart = createCart(questionsArr[currentQuestion]);
@@ -117,6 +121,9 @@ export const bindQuestions = (questionsArr, addAnswer, allQuestionsDoneCb) => {
         setTimeout(start.bind(null, questionsArr), 500);
     };
     prepareBtn.addEventListener('click', () => {
+        if (questionContent.innerHTML !== '') {
+            return;
+        }
         prepareEl.classList.add('hidden');
         questionContainer.classList.remove('hidden');
         start(questionsArr);
@@ -127,6 +134,7 @@ export const bindQuestions = (questionsArr, addAnswer, allQuestionsDoneCb) => {
             return;
         }
         chooseAnswer(chosenAnswer);
+        chosenAnswer = '';
         nextMove();
     });
 };

@@ -60,7 +60,9 @@ export const bindHistory = (
         starterBtnEl.addEventListener('click', () => {
             changeHistory('info');
         });
-
+    infoInputEl.addEventListener('focus', e => {
+        e.target.value = name;
+    });
     infoBtnEl &&
         infoBtnEl.addEventListener('click', () => {
             putNameToStorage(infoInputEl.value);

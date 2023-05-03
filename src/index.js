@@ -5,11 +5,12 @@ import {
     fetchQuestions,
     addAnswer,
     getAnswers,
+    resetAnswers,
     putNameToStorage,
     retrieveNameFromStorage,
 } from './model';
 import { createCategoryList } from './categories';
-import { bindQuestions, intervalId, resetPrepare } from './questions';
+import { bindQuestions, intervalId, resetQuestions } from './questions';
 import { createChart } from './result';
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -43,6 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
             await fetchQuestions(chosenCategory);
             move('questions', true);
             changeHistoryCb('questions');
+            resetAnswers();
             bindQuestions(getQuestions(), addAnswer, allQuestionsDoneCb);
         });
     };
@@ -52,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
             clearInterval(intervalId);
         }
         if (path === 'questions') {
-            resetPrepare();
+            resetQuestions();
         }
     };
 
@@ -63,4 +65,16 @@ window.addEventListener('DOMContentLoaded', () => {
         putNameToStorage,
         retrieveNameFromStorage
     );
+
+    window.addEventListener('keyup', e => {
+        if (e.code !== 'Enter') {
+            return;
+        }
+        const sections = document.querySelectorAll('section');
+        const displayedSection = Array.prototype.find.call(
+            sections,
+            section => getComputedStyle(section).display !== 'none'
+        );
+        displayedSection.querySelector('.btn')?.click();
+    });
 });

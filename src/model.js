@@ -61,7 +61,7 @@ export const getQuestions = () => questions;
 
 export const fetchQuestions = async categoryName => {
     const response = await fetch(
-        ` https://the-trivia-api.com/api/questions?categories=${categoryName}&limit=12`
+        ` https://the-trivia-api.com/api/questions?categories=${categoryName}&limit=3`
     );
     if (!response.ok) {
         //TODO:
@@ -80,4 +80,8 @@ export const addAnswer = answer => {
 
 export const getAnswers = () => {
     return answers;
+};
+
+export const resetAnswers = () => {
+    answers = [];
 };

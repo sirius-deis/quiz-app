@@ -4,6 +4,7 @@ Chart.register(...registerables);
 const btnEl = document.querySelector('.result .btn');
 const nameEl = document.querySelector('.result .result__name');
 const ctx = document.getElementById('chart');
+let chart;
 
 export const createChart = (
     rightAnswers,
@@ -13,7 +14,10 @@ export const createChart = (
     resetCb
 ) => {
     nameEl.textContent = name;
-    new Chart(ctx, {
+    if (chart) {
+        chart.destroy();
+    }
+    chart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ['Right', 'Wrong', 'No answer'],
