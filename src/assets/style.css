@@ -451,3 +451,7 @@ body {
         transform: rotate(360deg);
     }
 }
+
+.correct {
+    color: green !important;
+}

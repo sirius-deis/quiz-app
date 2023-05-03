@@ -30,6 +30,7 @@ function createCategoryListAndInsert(categoryList) {
         back.textContent = categoryItem.title;
         return liEl;
     });
+    categoryListEl.innerHTML = '';
     categoryListEl.append(...listForAppending);
 }
 

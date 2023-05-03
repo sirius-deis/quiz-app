@@ -1,5 +1,3 @@
-import { putNameToStorage, retrieveNameFromStorage } from './model';
-
 const startSection = document.querySelector('.start'),
     starterBtnEl = startSection.querySelector('.btn');
 const infoSection = document.querySelector('.info'),
@@ -7,21 +5,26 @@ const infoSection = document.querySelector('.info'),
     infoBtnEl = infoSection.querySelector('.btn');
 const categorySection = document.querySelector('.category');
 const questionSection = document.querySelector('.question');
+const resultSection = document.querySelector('.result');
 
 const url = new URL(location);
 let currentPath = '';
 let currentSection;
 
 const map = {
+    start: startSection,
     category: categorySection,
     info: infoSection,
     questions: questionSection,
+    result: resultSection,
 };
 
 export const bindHistory = (
     formCategoriesCb,
     isQuestionsEmpty,
-    historyChangeCb
+    historyChangeCb,
+    putNameToStorage,
+    retrieveNameFromStorage
 ) => {
     const name = retrieveNameFromStorage();
 
@@ -38,7 +41,7 @@ export const bindHistory = (
             changeHistory('questions');
         } else {
             if (!name) {
-                moveToStartSection();
+                changeHistory('info');
             } else {
                 changeHistory('category');
                 formCategoriesCb();
@@ -76,8 +79,9 @@ export const bindHistory = (
     });
 };
 
-const moveToStartSection = (path = '') => {
-    history.replaceState(null, '', `${url.origin}/${path}`);
+const moveToStartSection = () => {
+    history.replaceState(null, '', `${url.origin}/`);
+    showSection(map['start']);
 };
 
 export const move = (path, push = false) => {

@@ -16,7 +16,10 @@ let nextCart;
 let chosenAnswer = '';
 
 const createCart = question => {
-    const answersArr = [question.correctAnswer, ...question.incorrectAnswers];
+    const answersArr = [
+        question.correctAnswer,
+        ...question.incorrectAnswers,
+    ].sort((_1, _2) => Math.random() - 0.5);
     const item = document.createElement('div');
     item.className = 'question__item';
     item.innerHTML = `
@@ -25,9 +28,9 @@ const createCart = question => {
             ${answersArr
                 .map(
                     (answer, i) =>
-                        `<div class="question__option">${
-                            i + 1
-                        }. ${answer}</div>`
+                        `<div class="question__option ${
+                            answer === question.correctAnswer ? 'correct' : ''
+                        }">${i + 1}. ${answer}</div>`
                 )
                 .join('')}
         </div>
@@ -59,7 +62,7 @@ export const resetPrepare = () => {
     questionContainer.classList.add('hidden');
 };
 
-export const bindQuestions = (questionsArr, addAnswer) => {
+export const bindQuestions = (questionsArr, addAnswer, allQuestionsDoneCb) => {
     const start = () => {
         if (currentQuestion === 0) {
             activeCart = createCart(questionsArr[currentQuestion]);
@@ -103,14 +106,13 @@ export const bindQuestions = (questionsArr, addAnswer) => {
             stopTimer();
         }
         if (currentQuestion === questionsArr.length - 1) {
-            return;
+            return allQuestionsDoneCb();
         }
         currentQuestion++;
         shiftCards();
 
         remainingTime = 20;
         timeEl.classList.remove('expiring');
-        chooseAnswer(chosenAnswer);
         lineOuter.style.width = `100%`;
         setTimeout(start.bind(null, questionsArr), 500);
     };
@@ -121,12 +123,10 @@ export const bindQuestions = (questionsArr, addAnswer) => {
     });
 
     forwardArrow.addEventListener('click', () => {
-        if (currentQuestion >= questionsArr.length) {
-            return;
-        }
         if (!chosenAnswer) {
             return;
         }
+        chooseAnswer(chosenAnswer);
         nextMove();
     });
 };
