@@ -7,20 +7,34 @@ import {
     getAnswers,
     putNameToStorage,
     retrieveNameFromStorage,
-    setResult,
 } from './model';
 import { createCategoryList } from './categories';
 import { bindQuestions, intervalId, resetPrepare } from './questions';
+import { createChart } from './result';
 
 window.addEventListener('DOMContentLoaded', () => {
+    const resetCb = () => {
+        move('category', true);
+    };
     const allQuestionsDoneCb = () => {
         const answers = getAnswers();
         const questions = getQuestions();
         let result = [];
         for (let i = 0; i < answers.length; i++) {
+            if (answers[i] === null) {
+                result.push(null);
+                continue;
+            }
             result.push(answers[i] === questions[i].correctAnswer);
         }
-        setResult(result);
+        move('result', true);
+        createChart(
+            result.filter(item => item).length,
+            result.filter(item => item === false).length,
+            result.filter(item => item === null).length,
+            retrieveNameFromStorage(),
+            resetCb
+        );
     };
 
     const formCategories = () => {

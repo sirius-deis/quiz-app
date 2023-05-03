@@ -47,7 +47,7 @@ export const bindHistory = (
                 formCategoriesCb();
             }
         }
-    } else if (url.pathname === '/category') {
+    } else if (url.pathname === '/category' || url.pathname === '/result') {
         changeHistory('category');
         formCategoriesCb();
     } else {

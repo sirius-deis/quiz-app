@@ -366,6 +366,34 @@ body {
     background-color: var(--text-color);
 }
 
+/* Result section */
+.result {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result__container {
+    position: relative;
+    padding: 6rem 8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+    box-shadow: 1px 2px 6px var(--shadow-color);
+}
+
+.result__name {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+}
+
 /* Loader */
 .lds-roller {
     display: inline-block;
