@@ -15,6 +15,8 @@ let currentQuestion = 0;
 let activeCart;
 let nextCart;
 let chosenAnswer = '';
+let addAnswer;
+let allQuestionsDoneCb;
 
 const createCart = question => {
     const answersArr = [
@@ -64,79 +66,62 @@ export const resetQuestions = () => {
     currentQuestion = 0;
 };
 
-export const bindQuestions = (questions, addAnswer, allQuestionsDoneCb) => {
-    questionsArr = questions;
+const start = () => {
+    if (currentQuestion === 0) {
+        activeCart = createCart(questionsArr[currentQuestion]);
+    }
+    if (currentQuestion < questionsArr.length - 1) {
+        nextCart = createCart(questionsArr[currentQuestion + 1]);
+        nextCart.classList.add('right-layout');
+    }
+    questionContent.append(activeCart, nextCart);
+    progressEl.textContent = `${currentQuestion + 1}/${questionsArr.length}`;
+    intervalId = setInterval(tick, 100);
+    tick();
+};
 
-    const start = () => {
-        if (currentQuestion === 0) {
-            activeCart = createCart(questionsArr[currentQuestion]);
-        }
-        if (currentQuestion < questionsArr.length - 1) {
-            nextCart = createCart(questionsArr[currentQuestion + 1]);
-            nextCart.classList.add('right-layout');
-        }
-        questionContent.append(activeCart, nextCart);
-        progressEl.textContent = `${currentQuestion + 1}/${
-            questionsArr.length
-        }`;
-        intervalId = setInterval(tick, 100);
-        tick();
-    };
-
-    const tick = () => {
-        if (remainingTime < 6) {
-            timeEl.classList.add('expiring');
-        }
-        timeEl.textContent = `Time Left: ${Math.abs(
-            (remainingTime -= 0.1)
-        ).toFixed(0)}`;
-        lineOuter.style.width = `${(remainingTime / 20) * 100}%`;
-        if (remainingTime <= 0) {
-            chooseAnswer(null);
-            clearInterval(intervalId);
-            nextMove();
-        }
-    };
-
-    const chooseAnswer = answer => {
-        if (answer !== null && answer.length < 1) {
-            return;
-        }
-        addAnswer(answer);
-    };
-
-    const nextMove = () => {
-        if (intervalId) {
-            stopTimer();
-        }
-        if (currentQuestion === questionsArr.length - 1) {
-            return allQuestionsDoneCb();
-        }
-        currentQuestion++;
-        shiftCards();
-
-        remainingTime = 20;
-        timeEl.classList.remove('expiring');
-        lineOuter.style.width = `100%`;
-        setTimeout(start.bind(null, questionsArr), 500);
-    };
-    prepareBtn.addEventListener('click', () => {
-        if (questionContent.innerHTML !== '') {
-            return;
-        }
-        prepareEl.classList.add('hidden');
-        questionContainer.classList.remove('hidden');
-        start(questionsArr);
-    });
-
-    forwardArrow.addEventListener('click', () => {
-        if (!chosenAnswer) {
-            return;
-        }
-        chooseAnswer(chosenAnswer);
-        chosenAnswer = '';
+const tick = () => {
+    if (remainingTime < 6) {
+        timeEl.classList.add('expiring');
+    }
+    timeEl.textContent = `Time Left: ${Math.abs((remainingTime -= 0.1)).toFixed(
+        0
+    )}`;
+    lineOuter.style.width = `${(remainingTime / 20) * 100}%`;
+    if (remainingTime <= 0) {
+        chooseAnswer(null);
+        clearInterval(intervalId);
         nextMove();
-    });
+    }
+};
+
+const chooseAnswer = answer => {
+    if (answer !== null && answer.length < 1) {
+        return;
+    }
+    addAnswer(answer);
+};
+
+const nextMove = () => {
+    if (intervalId) {
+        stopTimer();
+    }
+    if (currentQuestion === questionsArr.length - 1) {
+        return allQuestionsDoneCb();
+    }
+    currentQuestion++;
+    shiftCards();
+
+    remainingTime = 20;
+    timeEl.classList.remove('expiring');
+    lineOuter.style.width = `100%`;
+    setTimeout(start.bind(null, questionsArr), 500);
+};
+
+export const bindQuestions = (questions, addAnswerFn, allQuestionsDoneFn) => {
+    questionsArr = questions;
+    addAnswer = addAnswerFn;
+    allQuestionsDoneCb = allQuestionsDoneFn;
 };
 
 questionContainer.addEventListener('click', e => {
@@ -147,4 +132,22 @@ questionContainer.addEventListener('click', e => {
     resetOptionElements(el.parentElement);
     el.classList.add('chosen');
     chosenAnswer = el.textContent.split('.')[1].trim();
+});
+
+prepareBtn.addEventListener('click', () => {
+    if (questionContent.innerHTML !== '') {
+        return;
+    }
+    prepareEl.classList.add('hidden');
+    questionContainer.classList.remove('hidden');
+    start(questionsArr);
+});
+
+forwardArrow.addEventListener('click', () => {
+    if (!chosenAnswer) {
+        return;
+    }
+    chooseAnswer(chosenAnswer);
+    chosenAnswer = '';
+    nextMove();
 });
